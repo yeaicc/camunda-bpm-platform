@@ -20,7 +20,7 @@ docker run -d \
 	-p 26257:26257 \
 	-p 8080:8080 \
 	-v "${PWD}/cockroach-data/roach1:/cockroach/cockroach-data" \
-	cockroachdb/cockroach-unstable:v20.1.0-rc.1 start \
+	cockroachdb/cockroach:v20.1.3 start \
 	--insecure \
 	--join=roach1,roach2,roach3
 
@@ -29,7 +29,7 @@ docker run -d \
 	--hostname=roach2 \
 	--net=roachnet \
 	-v "${PWD}/cockroach-data/roach2:/cockroach/cockroach-data" \
-	cockroachdb/cockroach-unstable:v20.1.0-rc.1 start \
+	cockroachdb/cockroach:v20.1.3 start \
 	--insecure \
 	--join=roach1,roach2,roach3
 
@@ -38,7 +38,7 @@ docker run -d \
 	--hostname=roach3 \
 	--net=roachnet \
 	-v "${PWD}/cockroach-data/roach3:/cockroach/cockroach-data" \
-	cockroachdb/cockroach-unstable:v20.1.0-rc.1 start \
+	cockroachdb/cockroach:v20.1.3 start \
 	--insecure \
 	--join=roach1,roach2,roach3
 
