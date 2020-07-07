@@ -274,7 +274,7 @@ public class DbSqlSessionFactory implements SessionFactory {
     databaseSpecificBitAnd2.put(POSTGRES, " & ");
     databaseSpecificBitAnd3.put(POSTGRES, "");
     databaseSpecificDatepart1.put(POSTGRES, "extract(");
-    databaseSpecificDatepart2.put(POSTGRES, ", ");
+    databaseSpecificDatepart2.put(POSTGRES, " from ");
     databaseSpecificDatepart3.put(POSTGRES, ")");
 
     databaseSpecificDummyTable.put(POSTGRES, "");
@@ -282,10 +282,7 @@ public class DbSqlSessionFactory implements SessionFactory {
     databaseSpecificFalseConstant.put(POSTGRES, "false");
     databaseSpecificIfNull.put(POSTGRES, "COALESCE");
 
-    // still doesn't work, currentTimestamp is a Time string that is not converted by CockroachDB
-    // testing the SQL query directly with a timestamp string works
-    // e.g. "(EXTRACT('day', TIMESTAMP '2020-04-21 16:57:54.928') - EXTRACT('day', pi.END_TIME_)) >= pd.HISTORY_TTL_"
-    databaseSpecificDaysComparator.put(POSTGRES, "EXTRACT ('day', #{currentTimestamp} - ${date}) >= ${days}");
+    databaseSpecificDaysComparator.put(POSTGRES, "EXTRACT (DAY FROM #{currentTimestamp} - ${date}) >= ${days}");
 
     databaseSpecificCollationForCaseSensitivity.put(POSTGRES, "");
 
@@ -339,7 +336,7 @@ public class DbSqlSessionFactory implements SessionFactory {
     constants.put("constant_for_update", "for update");
     constants.put("constant.datepart.quarter", "QUARTER");
     constants.put("constant.datepart.month", "MONTH");
-    constants.put("constant.datepart.minute", "'minute'");
+    constants.put("constant.datepart.minute", "MINUTE");
     constants.put("constant.null.startTime", "null START_TIME_");
     constants.put("constant.varchar.cast", "cast('${key}' as varchar(64))");
     constants.put("constant.integer.cast", "cast(NULL as integer)");
