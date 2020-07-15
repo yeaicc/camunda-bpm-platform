@@ -282,7 +282,8 @@ public class DbSqlSessionFactory implements SessionFactory {
     databaseSpecificFalseConstant.put(POSTGRES, "false");
     databaseSpecificIfNull.put(POSTGRES, "COALESCE");
 
-    databaseSpecificDaysComparator.put(POSTGRES, "EXTRACT (DAY FROM #{currentTimestamp} - ${date}) >= ${days}");
+    // CRDB doesn't currently support DAY extraction from intervals. The following is a workaround:
+    databaseSpecificDaysComparator.put(POSTGRES, "CAST( EXTRACT (HOUR FROM #{currentTimestamp} - ${date}) / 24 AS INT ) >= ${days}");
 
     databaseSpecificCollationForCaseSensitivity.put(POSTGRES, "");
 
